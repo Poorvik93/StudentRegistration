@@ -1,0 +1,134 @@
+﻿@model StudentRegistarationPortal.Models.SelectedCourseDTO
+@{
+    ViewBag.Title = "SelectedCourses";
+    StudentRegistarationPortal.Context.StudentRPDbContext _dbContext = new StudentRegistarationPortal.Context.StudentRPDbContext();
+    StudentRegistarationPortal.Models.Course courseDetails = null;
+    string courseViewModalId, courseUnregisterModalId, courseViewModalIdWithHashSymbol, courseUnregisterModalIdWithHashSymbol = null;
+}
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex flex-column justify-content-center align-items-center position-relative bg-primary link-container">
+        @Html.ActionLink("All Courses", "AllCourses", "Student", new { }, new { id = "allCourseBtn", @class = "nav-link text-decoration-none  fw-bold text-black m-2", data_target = "all" })
+        <span class="reverse-triangle active">&#9660;</span>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center position-relative bg-primary link-container">
+        @Html.ActionLink("Selected Courses", "SelectedCourses", "Student", new { }, new { id = "selectedCourseBtn", @class = "nav-link text-decoration-none fw-bold text-black m-2", data_target = "selected" })
+        <span class="reverse-triangle">&#9660;</span>
+    </div>
+</div>
+
+
+<div class="container bg-white p-3 ">
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "field-validation-error text-danger" })
+
+    <div class="table-responsive">
+
+        <table id="courses" class="display">
+            <thead class="bg-body-tertiary">
+                <tr>
+                    <th>COURSE NAME</th>
+                    <th>COURSE DESCRIPTION</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var course in ViewBag.SelectedCourses)
+                {
+
+                    {
+                        courseDetails = _dbContext.Courses.Find(course.CourseId);
+                        courseViewModalId = course.CourseId.ToString();
+                        courseUnregisterModalId = courseViewModalId + course.CourseId;
+                        courseViewModalIdWithHashSymbol = "#" + courseViewModalId;
+                        courseUnregisterModalIdWithHashSymbol = "#" + courseUnregisterModalId;
+                    }
+
+                    <tr>
+                        <td>@courseDetails.Name</td>
+                        <td>
+                            @courseDetails.Description
+                        </td>
+                        <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn" data-bs-toggle="modal"
+                                    data-bs-target=@courseViewModalIdWithHashSymbol>
+                                <i class="bi bi-eye-fill text-primary"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id=@courseViewModalId tabindex="-1"
+                                 aria-labelledby="course-details-modal-Label" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content p-2 ">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="course-details-title">Course Details</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-start ">
+                                            <p class="text-secondary ">
+                                                COURSE NAME: <span class="text-black ">@courseDetails.Name</span>
+                                            </p>
+                                            <p>NO. OF DAYS: <span class="text-black ">@courseDetails.NoOfDays</span></p>
+                                            <div>
+                                                <p>COURSE DESCRIPTION:</p>
+                                                <p>
+                                                    @courseDetails.Description
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="text-secondary ">
+                                                    FROM DATE: <span class="text-black ">@course.FromDate.ToShortDateString()</span>
+                                                </p>
+                                                <p class="text-secondary ">
+                                                    TO DATE: <span class="text-black ">@course.ToDate.ToShortDateString()</span>
+                                                </p>
+                                                <p class="text-secondary ">TIME: <span class="text-black ">@course.Time.ToShortTimeString()</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn" data-bs-toggle="modal"
+                                    data-bs-target=@courseUnregisterModalIdWithHashSymbol>
+                                <i class="bi bi-trash-fill text-danger"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id=@courseUnregisterModalId tabindex="-1"
+                                 aria-labelledby="course-delete-modal-Label" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content p-5 ">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="fw-bold fs-5  ">Are you sure to Delete this Record?</p>
+                                            <p>Do you really want to delete this record? This process cannot be undone.</p>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                                            @Html.ActionLink("Unregister", "UnregisterCourse", "Student", new { courseId = course.CourseId }, new { @class = "btn btn-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

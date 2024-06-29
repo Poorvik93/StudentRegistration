@@ -1,0 +1,99 @@
+﻿@model StudentRegistarationPortal.Models.SelectedCourseDTO
+@{
+    ViewBag.Title = "AllCourses";
+    string courseModalId, courseModalIdWithHashSymbol = null;
+}
+
+
+
+<div class="d-flex justify-content-center pb-0 mb-0">
+    <div class="d-flex flex-column justify-content-center align-items-center position-relative bg-primary link-container">
+        @Html.ActionLink("All Courses", "AllCourses", "Student", new { }, new { id = "allCourseBtn", @class = "nav-link  text-decoration-none fw-bold text-black m-2", data_target = "all" })
+        <span class="reverse-triangle active">&#9660;</span>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center position-relative bg-primary link-container">
+        @Html.ActionLink("Selected Courses", "SelectedCourses", "Student", new { }, new { id = "selectedCourseBtn", @class = "nav-link text-decoration-none fw-bold text-black m-2", data_target = "selected" })
+        <span class="reverse-triangle">&#9660;</span>
+    </div>
+</div>
+
+
+
+<div class="container bg-white p-3 ">
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "field-validation-error text-danger" })
+
+    <div class="table-responsive">
+
+        <table id="courses" class="display">
+            <thead>
+                <tr>
+                    <th>COURSE NAME</th>
+                    <th>COURSE DESCRIPTION</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var course in ViewBag.CourseList)
+                {
+                    {
+                        courseModalId = course.CourseId.ToString();
+                        courseModalIdWithHashSymbol = "#" + courseModalId;
+                    }
+
+                    <tr>
+                        <td>@course.Name</td>
+                        <td>@course.Description</td>
+                        <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn text-decoration-underline text-bg-success" data-bs-toggle="modal" data-bs-target=@courseModalIdWithHashSymbol>
+                                Select
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id=@courseModalId tabindex="-1" aria-labelledby="course-details-label" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered ">
+                                    <div class="modal-content p-5 ">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="course-details-label">Select Date & Time</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        @using (Html.BeginForm("AddCourse", "Student", new { courseId = course.CourseId }, FormMethod.Post))
+                                        {
+
+                                            <div class="modal-body">
+
+                                                <div class="mb-3">
+                                                    @Html.LabelFor(selectedCourse => selectedCourse.FromDate, new { @class = "form-label" })
+
+                                                    @Html.TextBoxFor(selectedCourse => selectedCourse.FromDate, new { @class = "form-control shadow-none", type = "date", required = "true", @Value = course.Date.ToString("yyyy-MM-dd"), min = course.Date.ToString("yyyy-MM-dd"), max = course.Date.AddDays(course.NoOfDays).ToString("yyyy-MM-dd") })
+                                                    @Html.ValidationMessageFor(selectedCourse => selectedCourse.FromDate)
+                                                </div>
+                                                <div class="mb-3">
+                                                    @Html.LabelFor(selectedCourse => selectedCourse.Time, new { @class = "form-label" })
+                                                    @Html.TextBoxFor(selectedCourse => selectedCourse.Time, new { @class = "form-control shadow-none", type = "time", required = "true", @Value = course.Time.ToString("hh:mm:ss") })
+                                                    @Html.ValidationMessageFor(selectedCourse => selectedCourse.Time)
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-secondary">Save</button>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+

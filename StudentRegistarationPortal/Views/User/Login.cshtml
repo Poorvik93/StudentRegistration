@@ -1,0 +1,62 @@
+﻿@model StudentRegistarationPortal.Models.UserLoginDetails
+@{
+    ViewBag.Title = "Login";
+    ViewBag.LoginTabActive = " active";
+    ViewBag.SignUpTabActive = "";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<style>
+    .btn {
+        outline: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        transition: border-radius 0.3s ease;
+    }
+
+        .btn:focus,
+        .btn:active {
+            border-radius: 8px;
+            border-bottom: 2px solid #007bff;
+        }
+</style>
+
+<div class="fw-semibold ">
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "field-validation-error text-danger" })
+
+    @using (Html.BeginForm("LogInUser", "User", FormMethod.Post))
+    {
+        <div class="mb-3">
+            @Html.LabelFor(user => user.UserName, new { @class = "form-label" })
+            @Html.TextBoxFor(user => user.UserName, new { @class = "form-control rounded-pill p-2 shadow-none", autocomplete = "off", @onblur = "this.value = this.value.trim();" })
+            @Html.ValidationMessageFor(user => user.UserName)
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(user => user.Password, new { @class = "form-label" })
+            <div class="position-relative d-flex justify-content-end">
+                @Html.PasswordFor(user => user.Password, new { @class = "form-control rounded-pill p-2 shadow-none", id = "password-field" })
+                <i class="bi bi-eye fs-5 toggle-password text-primary" data-target="password-field" style="cursor: pointer;"></i>
+            </div>
+            @Html.ValidationMessageFor(user => user.Password)
+        </div>
+
+
+        <div class="d-flex justify-content-between align-items-center ">
+            <div class="form-check">
+                @Html.CheckBoxFor(user => user.RememberMe, new { @class = "form-check-input shadow-none " })
+                @Html.LabelFor(user => user.RememberMe, new { @class = "form-check-label small " })
+            </div>
+            <p class="small ms-5 my-0 ">Forgot Password?</p>
+        </div>
+
+        <button type="submit" id class="btn btn-primary mb-3 rounded-pill w-100 mt-3 fw-semibold ">LOG IN</button>
+
+    }
+
+    <p class="col-6 btn rounded-0 signup-tab w-100 my-0 ">
+        Don't have an account?
+        @Html.ActionLink("Sign Up", "SignUp", "User", new { @class = "text-decoration-none text-primary fw-semibold" })
+    </p>
+</div>
+

@@ -1,0 +1,66 @@
+﻿@model StudentRegistarationPortal.Models.UserDTO
+
+@{
+    ViewBag.Title = "Sign Up";
+    ViewBag.LoginTabActive = "";
+    ViewBag.SignUpTabActive = " ";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<style>
+    .signup-tab {
+        outline: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        transition: border-radius 0.3s ease;
+    }
+
+        .signup-tab:focus,
+        .signup-tab:active {
+            border-radius: 8px;
+            border-bottom: 2px solid #007bff;
+        }
+</style>
+
+<div class="fw-semibold w-100">
+
+    @Html.ValidationSummary(true, string.Empty, new { @class = "field-validation-error text-dange" })
+
+    @using (Html.BeginForm("SignUpUser", "User", FormMethod.Post))
+    {
+        <div class="mb-3">
+            @Html.LabelFor(user => user.UserName, new { @class = "form-label" })
+            @Html.TextBoxFor(user => user.UserName, new { @class = "form-control rounded-pill p-2 shadow-none", autocomplete = "off", @onblur = "this.value = this.value.trim();" })
+            @Html.ValidationMessageFor(user => user.UserName)
+        </div>
+        <div class="mb-3">
+            @Html.LabelFor(user => user.Email, new { @class = "form-label" })
+            @Html.TextBoxFor(user => user.Email, new { @class = "form-control rounded-pill p-2 shadow-none", @onblur = "this.value = this.value.trim();" })
+            @Html.ValidationMessageFor(user => user.Email)
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(user => user.Password, new { @class = "form-label" })
+            <div class="position-relative d-flex justify-content-end">
+                @Html.PasswordFor(user => user.Password, new { @class = "form-control rounded-pill p-2 shadow-none", id = "password-field", autocomplete = "off", @oninput = "this.value = this.value.trim();" })
+                <i class="bi bi-eye fs-5 me-2 toggle-password text-primary"></i>
+            </div>
+            @Html.ValidationMessageFor(user => user.Password)
+        </div>
+
+        <div class="form-check">
+            @Html.CheckBoxFor(user => user.IsAcceptedTerms, new { @class = "form-check-input shadow-none" })
+            @Html.LabelFor(user => user.IsAcceptedTerms, new { @class = "form-check-label small" })
+            <br />
+            @Html.ValidationMessageFor(user => user.IsAcceptedTerms)
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3 rounded-pill w-100 mt-3 fw-semibold">SIGN UP</button>
+    }
+
+    <p class="col-6 btn rounded-0 signup-tab w-100 my-0">
+        Already have an account?
+        @Html.ActionLink("Log In", "LogIn", "User", new { @class = "text-decoration-none text-primary fw-semibold" })
+    </p>
+</div>

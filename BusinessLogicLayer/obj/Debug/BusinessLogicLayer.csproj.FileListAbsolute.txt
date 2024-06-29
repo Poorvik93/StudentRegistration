@@ -1,0 +1,15 @@
+D:\DotNet\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.AssemblyReference.cache
+D:\DotNet\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+D:\DotNet\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll.config
+D:\DotNet\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll
+D:\DotNet\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.pdb
+D:\DotNet\BusinessLogicLayer\bin\Debug\DataAccessLayer.dll
+D:\DotNet\BusinessLogicLayer\bin\Debug\EntityFramework.dll
+D:\DotNet\BusinessLogicLayer\bin\Debug\EntityFramework.SqlServer.dll
+D:\DotNet\BusinessLogicLayer\bin\Debug\DataAccessLayer.pdb
+D:\DotNet\BusinessLogicLayer\bin\Debug\DataAccessLayer.dll.config
+D:\DotNet\BusinessLogicLayer\bin\Debug\EntityFramework.xml
+D:\DotNet\BusinessLogicLayer\bin\Debug\EntityFramework.SqlServer.xml
+D:\DotNet\BusinessLogicLayer\obj\Debug\Business.450209FB.Up2Date
+D:\DotNet\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.dll
+D:\DotNet\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.pdb
